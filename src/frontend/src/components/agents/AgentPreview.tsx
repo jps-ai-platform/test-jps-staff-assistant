@@ -525,34 +525,29 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
         </div>
       </div>
 
-      <div className={styles.content}>
-        <div className={styles.chatbot}>
-          {isLoadingChatHistory ? (
-            <Spinner label={"Loading chat history..."} />
-          ) : (
-            <>
-              {isEmpty && (
-                <div className={styles.emptyChatContainer}>
-                  <AgentIcon
-                    alt=""
-                    iconClassName={styles.emptyStateAgentIcon}
-                    iconName={agentDetails.metadata?.logo}
-                  />
-                  <Caption1 className={styles.agentName}>
-                    {agentDetails.name}
-                  </Caption1>
-                  <Title3>How can I help you today?</Title3>
-                </div>
-              )}
-              <AgentPreviewChatBot
-                agentName={agentDetails.name}
-                agentLogo={agentDetails.metadata?.logo}
-                chatContext={chatContext}
-              />
-            </>
-          )}
-        </div>
+   <div className={styles.content}>
+  <div className={styles.chatbot}>
+    {isLoadingChatHistory ? (
+      <Spinner label={"Loading chat history..."} />
+    ) : (
+      <>
+       Replace your empty-state block with this:
 
+    {isEmpty && (
+      <div className={styles.emptyChatContainer}>
+        <Title3 style={{ marginBottom: 8 }}>
+          Hi, I’m your JPS AI Assistant
+        </Title3>
+        <Caption1 className={styles.agentName}>
+          {agentDetails.name}
+        </Caption1>
+        <Body1 style={{ color: "#666" }}>
+          How can I help you today?
+        </Body1>
+      </div>
+    )}
+
+  
         {/* temporarily disable BuiltWithBadge */}
         {/* <BuiltWithBadge className={styles.builtWithBadge} /> */}
       </div>
