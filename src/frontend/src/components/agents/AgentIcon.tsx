@@ -25,12 +25,19 @@ export function AgentIcon({
   iconClassName,
   alt = "",
 }: IAgentIconProps): ReactNode {
+  const base = import.meta.env.BASE_URL;
+
+  // Allow either absolute-looking paths (e.g. "JPS_R_216.png") or your existing "template-images" scheme
+  const src = iconName.includes("/")
+    ? `${base}${iconName.replace(/^\//, "")}`
+    : `${base}static/assets/template-images/${iconName}`;
+
   return (
     <div className={styles.iconContainer}>
       <img
         alt={alt}
         className={iconClassName ?? styles.icon}
-        src={`static/assets/template-images/${iconName}`}
+        src={src}
       />
     </div>
   );

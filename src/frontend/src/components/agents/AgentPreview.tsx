@@ -490,7 +490,7 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
         <div className={styles.leftSection}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <img
-              src="/JPS_R_216.png"
+              src={`${import.meta.env.BASE_URL}JPS_R_216.png`}
               alt="Jenks Public Schools"
               style={{ height: 40, width: "auto", display: "block" }}
             />
