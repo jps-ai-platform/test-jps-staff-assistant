@@ -1,12 +1,5 @@
 import { ReactNode, useState, useMemo, useEffect } from "react";
-import {
-  Body1,
-  Button,
-  Caption1,
-  Spinner,
-  Title3,
-  Caption1Strong,
-} from "@fluentui/react-components";
+import { Body1, Button, Caption1, Spinner, Title3 } from "@fluentui/react-components";
 import { ChatRegular, MoreHorizontalRegular } from "@fluentui/react-icons";
 
 import { AgentIcon } from "./AgentIcon";
