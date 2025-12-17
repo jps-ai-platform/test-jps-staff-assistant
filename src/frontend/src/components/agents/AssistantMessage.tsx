@@ -50,7 +50,24 @@ export function AssistantMessage({
           )}
         </span>
       }
-      avatar={<AgentIcon alt="" iconName={agentLogo} />}
+
+      {/* 
+        IMPORTANT:
+        We are intentionally NOT using `agentLogo` anymore because it was
+        pointing to a missing / broken image.
+
+        Instead, we force a known-good static icon that lives in:
+        src/frontend/public/jps-chatbot-icon.png
+
+        The leading "/" ensures this is served from the Vite public root.
+      */}
+      avatar={
+        <AgentIcon
+          alt="JPS AI Assistant"
+          iconName="/jps-chatbot-icon.png"
+        />
+      }
+
       className={styles.copilotChatMessage}
       disclaimer={<span>AI-generated content may be incorrect</span>}
       footnote={
@@ -77,7 +94,7 @@ export function AssistantMessage({
         </>
       }
       loadingState={loadingState}
-      name={agentName ?? "Bot"}
+      name={agentName ?? "JPS AI Assistant"}
     >
       <Suspense fallback={<Spinner size="small" />}>
         <Markdown content={message.content} />
