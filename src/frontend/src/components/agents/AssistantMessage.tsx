@@ -18,13 +18,14 @@ const DeleteIcon = bundleIcon(DeleteFilled, DeleteRegular);
 
 export function AssistantMessage({
   message,
-  agentLogo, // kept in props to avoid breaking upstream types; unused on purpose
+  agentLogo,
   loadingState,
   agentName,
   showUsageInfo,
   onDelete,
 }: IAssistantMessageProps): React.JSX.Element {
   const hasAnnotations = message.annotations && message.annotations.length > 0;
+
   const references = hasAnnotations
     ? message.annotations?.map((annotation, index) => (
         <div key={index} className="reference-item">
@@ -33,10 +34,12 @@ export function AssistantMessage({
       ))
     : [];
 
-  // IMPORTANT:
-  // We intentionally force a known-good static icon to avoid broken agentLogo URLs.
-  // This file must exist at: src/frontend/public/jps-chatbot-icon.png
-  const forcedAvatarIcon = "/jps-chatbot-icon.png";
+  // Use agentLogo if provided; otherwise fall back to your known-good icon in /public
+  // NOTE: Because AgentIcon prefixes BASE_URL, pass a leading "/" path for public assets.
+  const forcedAvatarIcon =
+    agentLogo && agentLogo.trim().length > 0
+      ? agentLogo
+      : "/jps-chatbot-icon.png";
 
   return (
     <CopilotMessage
@@ -82,7 +85,7 @@ export function AssistantMessage({
         </>
       }
       loadingState={loadingState}
-      name={agentName ?? "JPS AI Assistant"}
+      name={agentName ?? "Bot"}
     >
       <Suspense fallback={<Spinner size="small" />}>
         <Markdown content={message.content} />
