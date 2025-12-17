@@ -34,12 +34,16 @@ export function AssistantMessage({
       ))
     : [];
 
-  // Use agentLogo if provided; otherwise fall back to your known-good icon in /public
-  // NOTE: Because AgentIcon prefixes BASE_URL, pass a leading "/" path for public assets.
   const forcedAvatarIcon =
-    agentLogo && agentLogo.trim().length > 0
-      ? agentLogo
-      : "/jps-chatbot-icon.png";
+    agentLogo && agentLogo.trim().length > 0 ? agentLogo : "/jps-chatbot-icon.png";
+
+  // Adjust this check if your loadingState enum differs.
+  const isLoading =
+    loadingState === "loading" ||
+    loadingState === "pending" ||
+    loadingState === "generating";
+
+  const hasContent = Boolean(message.content && message.content.trim().length > 0);
 
   return (
     <CopilotMessage
@@ -87,9 +91,16 @@ export function AssistantMessage({
       loadingState={loadingState}
       name={agentName ?? "Bot"}
     >
-      <Suspense fallback={<Spinner size="small" />}>
-        <Markdown content={message.content} />
-      </Suspense>
+      {isLoading && !hasContent ? (
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+          <Spinner size="small" />
+          <span>Generating response…</span>
+        </span>
+      ) : (
+        <Suspense fallback={<Spinner size="small" />}>
+          <Markdown content={message.content} />
+        </Suspense>
+      )}
     </CopilotMessage>
   );
 }
