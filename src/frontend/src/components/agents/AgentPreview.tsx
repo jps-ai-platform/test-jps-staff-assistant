@@ -536,9 +536,9 @@ export function AgentPreview({ agentDetails }: IAgentPreviewProps): ReactNode {
                     Hi, I’m your JPS AI Assistant
                   </Title3>
 
-                  <Caption1 className={styles.agentName}>
+                  {/* <Caption1 className={styles.agentName}>
                     {agentDetails.name}
-                  </Caption1>
+                  </Caption1> */}
 
                   <Title3>How can I help you today?</Title3>
                 </div>
