@@ -96,7 +96,7 @@ export function AssistantMessage({
         </>
       }
       loadingState={loadingState}
-      name={agentName ?? "Bot"}
+      name={"JPS Staff AI Assistant"}
     >
       {isLoading && !hasContent ? (
         // Render an explicit "in progress" UI so users always see activity while waiting.
