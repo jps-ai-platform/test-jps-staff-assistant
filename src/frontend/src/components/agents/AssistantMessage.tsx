@@ -24,6 +24,7 @@ export function AssistantMessage({
   showUsageInfo,
   onDelete,
 }: IAssistantMessageProps): React.JSX.Element {
+  // Whether the message has citations / references attached.
   const hasAnnotations = message.annotations && message.annotations.length > 0;
 
   const references = hasAnnotations
@@ -34,15 +35,21 @@ export function AssistantMessage({
       ))
     : [];
 
+  // Use agentLogo if provided; otherwise fall back to your known-good icon in /public
+  // NOTE: Because AgentIcon prefixes BASE_URL, pass a leading "/" path for public assets.
   const forcedAvatarIcon =
     agentLogo && agentLogo.trim().length > 0 ? agentLogo : "/jps-chatbot-icon.png";
 
-  // Adjust this check if your loadingState enum differs.
-  const isLoading =
-    loadingState === "loading" ||
-    loadingState === "pending" ||
-    loadingState === "generating";
+  /**
+   * IMPORTANT:
+   * In your current Fluent Copilot component typings, loadingState is:
+   *   "none" | "streaming" | undefined
+   *
+   * So "streaming" is the only "loading" value we can check for without TypeScript errors.
+   */
+  const isLoading = loadingState === "streaming";
 
+  // If we have no content yet and we are "loading", show a visible progress indicator.
   const hasContent = Boolean(message.content && message.content.trim().length > 0);
 
   return (
@@ -92,11 +99,13 @@ export function AssistantMessage({
       name={agentName ?? "Bot"}
     >
       {isLoading && !hasContent ? (
+        // Render an explicit "in progress" UI so users always see activity while waiting.
         <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
           <Spinner size="small" />
           <span>Generating response…</span>
         </span>
       ) : (
+        // Normal render path once we have content (or not loading).
         <Suspense fallback={<Spinner size="small" />}>
           <Markdown content={message.content} />
         </Suspense>
