@@ -18,7 +18,7 @@ const DeleteIcon = bundleIcon(DeleteFilled, DeleteRegular);
 
 export function AssistantMessage({
   message,
-  agentLogo,
+  agentLogo, // kept in props to avoid breaking upstream types; unused on purpose
   loadingState,
   agentName,
   showUsageInfo,
@@ -32,6 +32,11 @@ export function AssistantMessage({
         </div>
       ))
     : [];
+
+  // IMPORTANT:
+  // We intentionally force a known-good static icon to avoid broken agentLogo URLs.
+  // This file must exist at: src/frontend/public/jps-chatbot-icon.png
+  const forcedAvatarIcon = "/jps-chatbot-icon.png";
 
   return (
     <CopilotMessage
@@ -50,24 +55,7 @@ export function AssistantMessage({
           )}
         </span>
       }
-
-      {/* 
-        IMPORTANT:
-        We are intentionally NOT using `agentLogo` anymore because it was
-        pointing to a missing / broken image.
-
-        Instead, we force a known-good static icon that lives in:
-        src/frontend/public/jps-chatbot-icon.png
-
-        The leading "/" ensures this is served from the Vite public root.
-      */}
-      avatar={
-        <AgentIcon
-          alt="JPS AI Assistant"
-          iconName="/jps-chatbot-icon.png"
-        />
-      }
-
+      avatar={<AgentIcon alt="JPS AI Assistant" iconName={forcedAvatarIcon} />}
       className={styles.copilotChatMessage}
       disclaimer={<span>AI-generated content may be incorrect</span>}
       footnote={
